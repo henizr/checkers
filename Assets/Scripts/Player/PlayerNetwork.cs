@@ -36,6 +36,11 @@ public class PlayerNetwork : Player
 
     }
 
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void AuthorityHandleLobbyOwnerStateUpdated(bool oldState, bool newState) {
         if (!hasAuthority) return;
         AuthorityOnLobbyOwnerStateUpdated?.Invoke(newState);

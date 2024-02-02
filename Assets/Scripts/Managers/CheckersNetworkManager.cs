@@ -12,6 +12,9 @@ public class CheckersNetworkManager : NetworkManager
         turnsHandlerPrefab;
 
     public static event Action ClientOnConnected;
+    public static event Action ServerOnGameStarted;
+
+
 
     public List<PlayerNetwork> NetworkPlayers { get; } = new List<PlayerNetwork>();
 
@@ -28,8 +31,8 @@ public class CheckersNetworkManager : NetworkManager
     public override void OnServerSceneChanged(string sceneName)
     {
         if (sceneName.StartsWith("Game"))
-
         {
+            ServerOnGameStarted?.Invoke();
             var gameOverHandlerInstance = Instantiate(gameOverHandlerPrefab);
             NetworkServer.Spawn(gameOverHandlerInstance);
         }
