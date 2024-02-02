@@ -42,6 +42,6 @@ public class LobbyMenu : MonoBehaviour
 
     public void StartGame()
     {
-        
+        NetworkManager.singleton.ServerChangeScene("Game Scene");
     }
 }
