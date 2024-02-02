@@ -14,11 +14,18 @@ public class LobbyMenu : MonoBehaviour
     private void Start()
     {
         PlayerNetwork.ClientOnInfoUpdated += ClientHandleInfoUpdated;
+        PlayerNetwork.AuthorityOnLobbyOwnerStateUpdated += AuthorityHandleLobbyOwnerStateUpdated;
     }
 
     private void OnDestroy()
     {
         PlayerNetwork.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
+        PlayerNetwork.AuthorityOnLobbyOwnerStateUpdated -= AuthorityHandleLobbyOwnerStateUpdated;
+    }
+
+    void AuthorityHandleLobbyOwnerStateUpdated(bool state)
+    {
+        startGameButton.gameObject.SetActive(state);
     }
 
     void ClientHandleInfoUpdated() {
@@ -29,6 +36,8 @@ public class LobbyMenu : MonoBehaviour
 
         for (int i = players.Count; i < playerNameTexts.Length; i++)
             playerNameTexts[i].text = "∆дем игрока...";
+
+        startGameButton.interactable = players.Count >= 2;
     }
 
     public void StartGame()

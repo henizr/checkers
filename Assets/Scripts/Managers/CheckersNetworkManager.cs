@@ -31,12 +31,12 @@ public class CheckersNetworkManager : NetworkManager
         NetworkPlayers.Add(player);
 
 
-        player.IsWhite = numPlayers == 1;
+        player.LobbyOwner = player.IsWhite = numPlayers == 1;
         player.DisplayName = player.IsWhite ? "Светлый" : "Тёмный";
 
     }
 
-    public override void OnServerDisconnect(NetworkConnection conn)
+    public override void OnServerDisconnect(NetworkConnection conn) 
     {
 
         var player = conn.identity.GetComponent<PlayerNetwork>();
