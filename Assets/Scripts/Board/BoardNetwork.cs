@@ -15,4 +15,25 @@ public class BoardNetwork : Board
     {
         FillBoardList(boardList);
     }
+
+
+    [Server]
+    public override void MoveOnBoard(Vector2Int oldPosition, Vector2Int newPosition, bool nextTurn)
+    {
+        MoveOnBoard(boardList, oldPosition, newPosition);
+        RpcMoveOnBoard(oldPosition, newPosition, nextTurn);
+    }
+
+
+    [ClientRpc]
+    void RpcMoveOnBoard(Vector2Int oldPosition, Vector2Int newPosition, bool nextTurn)
+    {
+
+        if (NetworkServer.active)
+
+            return;
+
+        MoveOnBoard(boardList, oldPosition, newPosition);
+
+    }
 }
