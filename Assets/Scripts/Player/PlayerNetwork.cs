@@ -67,10 +67,10 @@ public class PlayerNetwork : Player
     }
 
     [Command]
-    public void CmdNextTurn()
-    {
+public void CmdNextTurn()
+{
 
-        TurnsHandler.Instance.NextTurn();
+TurnsHandler.Instance.NextTurn();
 
-    }
+}
 }
