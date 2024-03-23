@@ -34,6 +34,6 @@ public class BoardNetwork : Board
             return;
 
         MoveOnBoard(boardList, oldPosition, newPosition);
-
+        if (nextTurn) NetworkClient.connection.identity.GetComponent<PlayerNetwork>().CmdNextTurn();
     }
 }
