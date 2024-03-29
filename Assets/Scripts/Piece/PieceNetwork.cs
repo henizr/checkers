@@ -12,7 +12,7 @@ public class PieceNetwork : NetworkBehaviour
     {
 
         owner = connectionToClient.identity.GetComponent<PlayerPiecesHandler>();
-
+        Board.Instance.OnPieceCaptured += ServerHandlePieceCaptured;
     }
 
     void HandleOwnerSet(PlayerPiecesHandler oldOwner, PlayerPiecesHandler newOwner)
@@ -20,5 +20,15 @@ public class PieceNetwork : NetworkBehaviour
 
         transform.parent = newOwner.PiecesParent;
 
+    }
+    public override void OnStopServer()
+    {
+        Board.Instance.OnPieceCaptured -= ServerHandlePieceCaptured;
+    }
+    [Server]
+    void ServerHandlePieceCaptured(Vector3 capturedPiecePosition)
+    {
+        if (capturedPiecePosition != transform.position) return;
+        NetworkServer.Destroy(gameObject);
     }
 }
