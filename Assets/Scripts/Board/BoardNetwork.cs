@@ -11,11 +11,33 @@ public class BoardNetwork : Board
     public override IList<int[]> BoardList { get { return boardList; } }
 
 
+    [Server]
+    bool TryPromotePieceOnBoard(PiecePromotionHandler promotedPiece, int x, int z)
+    {
+        PromotePieceOnBoard(boardList, x, z);
+        RpcPromotePieceOnBoard(x, z);   
+        return true;
+
+    }
+    [ClientRpc]
+    void RpcPromotePieceOnBoard(int x, int z)
+    {
+        if (NetworkServer.active) return;
+        PromotePieceOnBoard(boardList, x, z);
+
+    }
     public override void OnStartServer()
     {
         FillBoardList(boardList);
+        PieceMovementHandlerNetwork.ServerOnPieceReachedBackline += TryPromotePieceOnBoard;
     }
 
+
+
+    public override void OnStopServer()
+    {
+        PieceMovementHandlerNetwork.ServerOnPieceReachedBackline -= TryPromotePieceOnBoard;
+    }
 
     [Server]
     public override void MoveOnBoard(Vector2Int oldPosition, Vector2Int newPosition, bool nextTurn)
